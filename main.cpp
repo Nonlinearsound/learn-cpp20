@@ -5,22 +5,23 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include "fd.h"
 
 // RAII helper class for encapsulating the file descriptor for the socket
 // we need this as in the constructor of the Socket class when throwing an exception,
 // we would need to manually close the socket, which is not a clean way.
-class Fd {
-    int fd;
-public:
-    explicit Fd(int f = -1) : fd(f) {}
-    ~Fd() { if (fd >= 0) ::close(fd); }
-
-    int get() const { return fd; }
-    void reset(int newfd = -1) {
-        if (fd >= 0) ::close(fd);
-        fd = newfd;
-    }
-};
+// class Fd {
+//     int fd;
+// public:
+//     explicit Fd(int f = -1) : fd(f) {}
+//     ~Fd() { if (fd >= 0) ::close(fd); }
+//
+//     int get() const { return fd; }
+//     void reset(int newfd = -1) {
+//         if (fd >= 0) ::close(fd);
+//         fd = newfd;
+//     }
+// };
 
 
 class Socket {
